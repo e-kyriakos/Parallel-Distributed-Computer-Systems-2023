@@ -1,0 +1,63 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{titling}
+\usepackage{lipsum} % For generating dummy text, you can remove this in your actual document
+
+% Adjust the page margins if needed
+\geometry{margin=1in}
+
+% Title information
+\title{Your Title}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+\begin{titlingpage}
+    \maketitle
+    \begin{abstract}
+	    This is an implemantation of a sparse matrix multiplication problem using parallisation techniques. Here, we parallelize the matrix multiplication using Pthreads (POSIX), OpenMP and OpenCilk writen in C.
+    \end{abstract}
+\end{titlingpage}
+
+\section{Background}
+
+A major part of this project is based on deciding and concluding on the proper format to store the matrices in. Sparse matrices are created to avoid large memory overhead. This naturally bounds our potential storage forms. Commonly used formats include Compressed Sparse Row (CSR), Compressed Sparse Column (CSC), Rutherford-Boeing, and Market Matrix. Of these CSR and CSC lend themselves most naturally to the row/column based accesses that characterize matrix multiplication. But specifically since we are focusing on row indices multiplication, the final sparse matrix format is that of a CSR.
+
+
+On its own, dense matrix multiplication is naturally memory-bound. By representing the matrix as a CSR, we add additional memory accesses by the virtue that we cannot simply index into an array, but instead need to search. Many of the standard matrix multiplication techniques can potentially apply but have this additional overhead.
+
+It is important to speedup sparse matrix multiplication as there are a variety of applications that often rely on successive multiplications. Faster compute is eccencial for many networking, natural language processing, and GPU acceleration are few of the numberous implementations.
+
+
+\section{Problem Approach}
+
+In this implementation, the program takes as input a single adjecency matrix, commonly provided on a COO format from the Matrix Market provider. If no adjecency matrix is given or isn't loaded properly, a randomly generated adjacency martix may be produced, where with a given row and column lenght, edge probability density, and a random generator seed, arbirtary matrices are produced.
+
+Given the adjecency matrix a randomly generated configuration is produced per each node, mapping all nodes to a cluster state space.
+
+Then  $ \Omega_{n \times c}$ configuration matrices such that $\Omega_{ij} = 1$ if node $i$ belongs to cluster $j$ is created per the CSR adjecency matrix  $A$. Thus the final minor graph compute of $M = \Omega^T A \Omega$ is given.
+
+\section{Results}
+Present your results in this section. You can include tables, figures, and any relevant data.
+
+\section{Discussion}
+Discuss the implications of your results and their significance.
+
+\section{Conclusion}
+Summarize your findings and conclude your article.
+
+\section*{Acknowledgments}
+If you have any acknowledgments, include them here.
+
+\section*{References}
+\begin{itemize}
+    \item Author, A. (Year). Title of the paper. \textit{Journal Name}, \textbf{Volume}(Issue), Page Range. DOI
+    \item Another Author, B. (Year). Another Title. \textit{Another Journal}, \textbf{Volume}(Issue), Page Range. DOI
+\end{itemize}
+
+\end{document}
